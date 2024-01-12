@@ -1,4 +1,4 @@
-package com.tiooooo.mymovie.pages.main
+package com.tiooooo.mymovie.pages.main.movie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
 ) : ViewModel() {
 
@@ -25,5 +25,4 @@ class MainViewModel @Inject constructor(
             _genres.emitAll(movieRepository.getGenres())
         }
     }
-
 }

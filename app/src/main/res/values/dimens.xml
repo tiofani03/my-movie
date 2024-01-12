@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        xs -> extra small
+        sm -> small
+        md -> medium
+        lg -> large
+        xl -> extra large
+        hg -> huge
+
+        space -> use it for margin or padding
+    -->
+
+
+    <dimen name="space_0">0dp</dimen>
+    <dimen name="space_xxs">2dp</dimen>
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_xs_sp">4sp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">16dp</dimen>
+    <dimen name="space_lg">20dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+    <dimen name="space_hg">30dp</dimen>
+    <dimen name="space_xhg">48dp</dimen>
+    <dimen name="space_xx_hg">64dp</dimen>
+    <dimen name="space_hgg">128dp</dimen>
+
+    <dimen name="button_height_xs">28dp</dimen>
+    <dimen name="button_height_sm">36dp</dimen>
+    <dimen name="button_height_md">48dp</dimen>
+
+    <dimen name="text_xs">10sp</dimen>
+    <dimen name="text_sm">12sp</dimen>
+    <dimen name="text_md">14sp</dimen>
+    <dimen name="text_lg">16sp</dimen>
+    <dimen name="text_xl">18sp</dimen>
+    <dimen name="text_hg">24sp</dimen>
+
+    <dimen name="icon_xs">10dp</dimen>
+    <dimen name="icon_sm">12dp</dimen>
+    <dimen name="icon_md">16dp</dimen>
+    <dimen name="icon_lg">20dp</dimen>
+    <dimen name="icon_xl">24dp</dimen>
+    <dimen name="icon_hg">32dp</dimen>
+
+    <dimen name="radius_xs">4dp</dimen>
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">12dp</dimen>
+    <dimen name="radius_lg">16dp</dimen>
+    <dimen name="radius_xl">20dp</dimen>
+    <dimen name="radius_hg">24dp</dimen>
+
+    <dimen name="shadow_xs">1dp</dimen>
+    <dimen name="shadow_sm">2dp</dimen>
+    <dimen name="shadow_md">4dp</dimen>
+    <dimen name="shadow_lg">8dp</dimen>
+
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="gap_width">16dp</dimen>
+    <dimen name="gap_space">5dp</dimen>
+    <dimen name="loading_animation_size">60dp</dimen>
+
+    <dimen name="toolbar_height">54dp</dimen>
+    <dimen name="edittext_height">48dp</dimen>
+    <dimen name="tab_high_40">40dp</dimen>
+
+    <!--  dimen for step  -->
+    <dimen name="history_step_border_width">2dp</dimen>
+    <dimen name="history_step_active_border_width">2dp</dimen>
+</resources>
