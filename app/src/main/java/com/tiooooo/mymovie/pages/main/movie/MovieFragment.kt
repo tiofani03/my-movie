@@ -1,60 +1,51 @@
 package com.tiooooo.mymovie.pages.main.movie
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.tiooooo.core.base.BaseFragment
+import com.tiooooo.core.extensions.collectFlow
+import com.tiooooo.core.network.data.States
 import com.tiooooo.mymovie.R
+import com.tiooooo.mymovie.databinding.FragmentMovieBinding
+import com.tiooooo.mymovie.pages.main.MainActivity
+import com.tiooooo.mymovie.pages.main.movie.adapter.genre.GenreContainerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.fragment_movie) {
+    private val movieViewModel: MovieViewModel by viewModels()
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MovieFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MovieFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // parent adapter
+    private lateinit var concatAdapter: ConcatAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val genreContainerAdapter = GenreContainerAdapter()
+
+    override fun initView() {
+        super.initView()
+        setupAdapter()
+        movieViewModel.getGenres()
+
+    }
+
+    private fun setupAdapter() {
+        concatAdapter = ConcatAdapter(genreContainerAdapter)
+
+        binding.rvContainer.adapter = concatAdapter
+        binding.rvContainer.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun setSubscribeToLiveData() {
+        collectFlow(movieViewModel.genres){
+            when(it){
+                is States.Success -> {
+                    genreContainerAdapter.setData(it.data.genreList)
+                }
+                else -> {
+
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MovieFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MovieFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

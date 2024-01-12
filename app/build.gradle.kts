@@ -51,11 +51,17 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
+    //viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.6")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+    //bottom bar
+    implementation("com.github.ertugrulkaragoz:SuperBottomBar:0.4")
+    
+    //concat adapter
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
 
 kapt {
