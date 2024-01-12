@@ -11,8 +11,10 @@ data class PagingResponse<T>(
     val perPage: Int?,
     @SerializedName("previousPage", alternate = ["previous_page"])
     val previousPage: Int?,
-    @SerializedName("total")
+    @SerializedName("page")
+    val page: Int?,
+    @SerializedName("total_pages")
     val total: Int?,
-    @SerializedName("data")
+    @SerializedName("results")
     val data: List<T>?,
 )
