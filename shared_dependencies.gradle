@@ -1,0 +1,18 @@
+dependencies {
+    api("androidx.core:core-ktx:1.10.1")
+    api("androidx.appcompat:appcompat:1.6.1")
+    api("com.google.android.material:material:1.9.0")
+    api("junit:junit:4.13.2")
+    api("androidx.test.ext:junit:1.1.5")
+    api("androidx.test.espresso:espresso-core:3.5.1")
+
+    //retrofit
+    api("com.squareup.retrofit2:retrofit:2.9.0")
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+
+    //coroutine
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+}
