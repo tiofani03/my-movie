@@ -59,9 +59,12 @@ dependencies {
 
     //bottom bar
     implementation("com.github.ertugrulkaragoz:SuperBottomBar:0.4")
-    
+
     //concat adapter
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    //coil
+    implementation("io.coil-kt:coil:2.5.0")
 }
 
 kapt {
