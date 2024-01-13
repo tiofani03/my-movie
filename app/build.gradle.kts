@@ -67,8 +67,10 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil:2.5.0")
-
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.flaviofaria:kenburnsview:1.0.7")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 }
 
 kapt {

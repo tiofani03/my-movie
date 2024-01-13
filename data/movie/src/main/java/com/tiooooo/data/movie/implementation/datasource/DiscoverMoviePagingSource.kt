@@ -2,9 +2,9 @@ package com.tiooooo.data.movie.implementation.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.data.movie.implementation.remote.api.MovieApi
-import com.tiooooo.data.movie.implementation.remote.response.mapToMovieResult
+import com.tiooooo.data.movie.implementation.remote.response.list.mapToMovieResult
 
 class DiscoverMoviePagingSource(
     private val movieApi: MovieApi,

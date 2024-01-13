@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tiooooo.core.base.BaseFragment
 import com.tiooooo.core.extensions.collectFlow
 import com.tiooooo.core.network.data.States
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.FragmentMovieBinding
 import com.tiooooo.mymovie.pages.detail.movie.DetailMovieActivity
@@ -134,6 +134,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
 
             override fun onClickDetail(movieId: Long) {
                 val intent = Intent(requireActivity(), DetailMovieActivity::class.java).apply {
+                    putExtra(DetailMovieActivity.EXTRA_ID, movieId.toString())
                 }
                 startActivity(intent)
             }

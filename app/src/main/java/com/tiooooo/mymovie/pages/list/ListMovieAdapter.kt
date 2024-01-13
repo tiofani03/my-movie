@@ -6,7 +6,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.core.constant.Constant
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.mymovie.databinding.ItemPosterFullBinding
 
 class ListMovieAdapter : PagingDataAdapter<MovieResult, ListMovieAdapter.ViewHolder>(Companion) {
@@ -20,9 +21,15 @@ class ListMovieAdapter : PagingDataAdapter<MovieResult, ListMovieAdapter.ViewHol
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    var onItemClick: ((movieId: String) -> Unit)? = null
+
+    override
+    fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindItem(it)
+            holder.itemView.setOnClickListener {
+                onItemClick?.invoke(getItem(position)?.id.toString())
+            }
         }
     }
 
@@ -37,7 +44,7 @@ class ListMovieAdapter : PagingDataAdapter<MovieResult, ListMovieAdapter.ViewHol
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindItem(movieResult: MovieResult) {
             binding.apply {
-                ivPoster.load("https://image.tmdb.org/t/p/w500/" + movieResult.posterPath)
+                ivPoster.load(Constant.BASE_IMAGE_500 + movieResult.posterPath)
                 tvTitle.text = movieResult.title
                 tvRating.text = movieResult.voteAverage.toString()
             }

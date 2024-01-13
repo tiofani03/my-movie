@@ -1,8 +1,8 @@
-package com.tiooooo.data.movie.implementation.remote.response
+package com.tiooooo.data.movie.implementation.remote.response.genre
 
 import com.google.gson.annotations.SerializedName
-import com.tiooooo.data.movie.api.model.Genre
-import com.tiooooo.data.movie.api.model.GenreList
+import com.tiooooo.data.movie.api.model.list.Genre
+import com.tiooooo.data.movie.api.model.list.GenreList
 
 data class GenreResponse(
     @SerializedName("id") val id: Int?,

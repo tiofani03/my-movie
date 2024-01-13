@@ -3,8 +3,8 @@ package com.tiooooo.mymovie.pages.main.movie
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tiooooo.core.network.data.States
-import com.tiooooo.data.movie.api.model.GenreList
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.list.GenreList
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.data.movie.api.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -1,7 +1,7 @@
-package com.tiooooo.data.movie.implementation.remote.response
+package com.tiooooo.data.movie.implementation.remote.response.list
 
 import com.google.gson.annotations.SerializedName
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.list.MovieResult
 
 data class MovieResultResponse(
     @SerializedName("adult") val adult: Boolean?,

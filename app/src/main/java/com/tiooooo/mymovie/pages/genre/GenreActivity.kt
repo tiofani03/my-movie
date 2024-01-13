@@ -3,7 +3,7 @@ package com.tiooooo.mymovie.pages.genre
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tiooooo.core.base.BaseActivity
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.databinding.ActivityGenreBinding
 import com.tiooooo.mymovie.pages.genre.adapter.SectionGenreAdapter
 import dagger.hilt.android.AndroidEntryPoint

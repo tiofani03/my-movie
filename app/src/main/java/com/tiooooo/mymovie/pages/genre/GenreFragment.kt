@@ -1,5 +1,6 @@
 package com.tiooooo.mymovie.pages.genre
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -7,9 +8,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tiooooo.core.base.BaseFragment
 import com.tiooooo.core.extensions.getLaunch
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.FragmentGenreBinding
+import com.tiooooo.mymovie.pages.detail.movie.DetailMovieActivity
 import com.tiooooo.mymovie.pages.list.ListMovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +51,14 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreActivity>(R.layout
             val categoryId = it[position].id.toString()
             genreViewModel.getMoviesByType(categoryId)
 
-            listMovieAdapter = ListMovieAdapter()
+            listMovieAdapter = ListMovieAdapter().apply {
+                onItemClick = {
+                    val intent = Intent(requireActivity(), DetailMovieActivity::class.java).apply {
+                        putExtra(DetailMovieActivity.EXTRA_ID, it)
+                    }
+                    startActivity(intent)
+                }
+            }
             binding.rvMovie.apply {
                 this.adapter = listMovieAdapter
                 layoutManager = GridLayoutManager(requireActivity(), 2)

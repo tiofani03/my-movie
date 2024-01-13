@@ -3,7 +3,7 @@ package com.tiooooo.mymovie.pages.genre.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.pages.genre.GenreFragment
 
 class SectionGenreAdapter(
