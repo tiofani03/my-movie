@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.databinding.ContainerGenreBinding
 import com.tiooooo.mymovie.pages.main.movie.listener.GenreListener
 

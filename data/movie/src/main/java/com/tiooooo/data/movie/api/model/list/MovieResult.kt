@@ -1,4 +1,4 @@
-package com.tiooooo.data.movie.api.model
+package com.tiooooo.data.movie.api.model.list
 
 data class MovieResult(
     val adult: Boolean,

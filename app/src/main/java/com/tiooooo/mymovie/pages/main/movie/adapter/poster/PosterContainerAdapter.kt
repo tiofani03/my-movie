@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.mymovie.databinding.ContainerPosterBinding
 import com.tiooooo.mymovie.pages.main.movie.listener.PosterListener
 

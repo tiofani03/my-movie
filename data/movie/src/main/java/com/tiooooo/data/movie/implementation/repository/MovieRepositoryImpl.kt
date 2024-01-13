@@ -5,14 +5,23 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.tiooooo.core.network.data.States
 import com.tiooooo.core.network.data.toError
-import com.tiooooo.data.movie.api.model.GenreList
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.casts.Cast
+import com.tiooooo.data.movie.api.model.detail.MovieDetail
+import com.tiooooo.data.movie.api.model.list.GenreList
+import com.tiooooo.data.movie.api.model.list.MovieResult
+import com.tiooooo.data.movie.api.model.review.MovieReview
+import com.tiooooo.data.movie.api.model.video.MovieVideo
 import com.tiooooo.data.movie.api.repository.MovieRepository
 import com.tiooooo.data.movie.implementation.datasource.DiscoverMoviePagingSource
 import com.tiooooo.data.movie.implementation.datasource.MoviePagingSource
+import com.tiooooo.data.movie.implementation.datasource.MovieReviewPagingSource
 import com.tiooooo.data.movie.implementation.remote.api.MovieApi
-import com.tiooooo.data.movie.implementation.remote.response.mapToMovieResult
-import com.tiooooo.data.movie.implementation.remote.response.toGenreList
+import com.tiooooo.data.movie.implementation.remote.response.casts.toCast
+import com.tiooooo.data.movie.implementation.remote.response.detail.toMovieDetail
+import com.tiooooo.data.movie.implementation.remote.response.genre.toGenreList
+import com.tiooooo.data.movie.implementation.remote.response.list.mapToMovieResult
+import com.tiooooo.data.movie.implementation.remote.response.review.toMovieReview
+import com.tiooooo.data.movie.implementation.remote.response.video.toMovieVideo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,7 +60,7 @@ class MovieRepositoryImpl(
     override suspend fun getAllMovieByType(type: String): Flow<PagingData<MovieResult>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10
+                pageSize = 20
             ),
             pagingSourceFactory = {
                 MoviePagingSource(movieApi, type)
@@ -62,11 +71,78 @@ class MovieRepositoryImpl(
     override suspend fun getDiscoverMovie(genreId: String): Flow<PagingData<MovieResult>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10
+                pageSize = 20
             ),
             pagingSourceFactory = {
                 DiscoverMoviePagingSource(movieApi, genreId)
             }
         ).flow
+    }
+
+    override suspend fun getDetailMovie(movieId: String): Flow<States<MovieDetail>> {
+        return flow {
+            try {
+                val response = movieApi.getDetailMovie(movieId)
+                emit(States.Success(data = response.toMovieDetail()))
+            } catch (e: Exception) {
+                emit(e.toError())
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun getMovieReviews(movieId: String): Flow<States<List<MovieReview>>> {
+        return flow {
+            try {
+                val response = movieApi.getMovieReviews(movieId)
+                response.data?.let { list ->
+                    emit(States.Success(data = list.map { it.toMovieReview() }))
+                } ?: run {
+                    emit(States.Empty)
+                }
+            } catch (e: Exception) {
+                emit(e.toError())
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun getAllMovieReviews(movieId: String): Flow<PagingData<MovieReview>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20
+            ),
+            pagingSourceFactory = {
+                MovieReviewPagingSource(movieApi, movieId)
+            }
+        ).flow
+    }
+
+    override suspend fun getMovieCasts(movieId: String): Flow<States<List<Cast>>> {
+        return flow {
+            try {
+                val response = movieApi.getMovieCasts(movieId)
+                response.cast?.let { list ->
+                    emit(States.Success(data = list.map { it.toCast() }))
+                } ?: run {
+                    emit(States.Empty)
+                }
+            } catch (e: Exception) {
+                emit(e.toError())
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun getMovieVideos(movieId: String): Flow<States<List<MovieVideo>>> {
+        return flow {
+            try {
+                val response = movieApi.getMovieVideo(movieId)
+                response.data?.let { list ->
+                    emit(States.Success(data = list.map { it.toMovieVideo() }))
+                } ?: run {
+                    emit(States.Empty)
+                }
+            } catch (e: Exception) {
+                emit(e.toError())
+            }
+        }.flowOn(ioDispatcher)
     }
 }

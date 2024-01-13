@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.tiooooo.data.movie.api.model.Genre
+import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.mymovie.databinding.ItemGenreBinding
 import com.tiooooo.mymovie.pages.main.movie.listener.GenreListener
 

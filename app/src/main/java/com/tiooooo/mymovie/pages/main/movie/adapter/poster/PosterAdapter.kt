@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import coil.load
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.core.constant.Constant
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.mymovie.databinding.ItemPosterBinding
 import com.tiooooo.mymovie.pages.main.movie.listener.PosterListener
 
@@ -42,7 +43,8 @@ class PosterAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindItem(movieResult: MovieResult) {
             binding.apply {
-                ivPoster.load("https://image.tmdb.org/t/p/w500/" + movieResult.posterPath)
+                ivPoster.load(Constant.BASE_IMAGE_500 + movieResult.posterPath)
+//                ivPoster.load("https://img.youtube.com/vi/Q3bWmyvyA-I/0.jpg")
                 tvTitle.text = movieResult.title
                 tvRating.text = movieResult.voteAverage.toString()
             }

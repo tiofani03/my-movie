@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.tiooooo.data.movie.api.model.MovieResult
+import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.data.movie.api.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
