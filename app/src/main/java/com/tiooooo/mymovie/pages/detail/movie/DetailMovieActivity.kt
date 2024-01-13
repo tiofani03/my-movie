@@ -1,17 +1,14 @@
 package com.tiooooo.mymovie.pages.detail.movie
 
-import android.app.Activity
 import android.content.Intent
-import android.widget.TextView
+import android.net.Uri
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.tiooooo.core.base.BaseActivity
 import com.tiooooo.core.extensions.collectFlow
+import com.tiooooo.core.extensions.setCollapsing
 import com.tiooooo.core.network.data.States
 import com.tiooooo.data.movie.api.model.casts.Cast
 import com.tiooooo.data.movie.api.model.detail.MovieDetail
@@ -23,9 +20,9 @@ import com.tiooooo.mymovie.pages.detail.movie.adapter.CastAdapter
 import com.tiooooo.mymovie.pages.detail.movie.adapter.GenreDetailAdapter
 import com.tiooooo.mymovie.pages.detail.movie.adapter.ReviewAdapter
 import com.tiooooo.mymovie.pages.detail.movie.adapter.VideoAdapter
+import com.tiooooo.mymovie.pages.review.ListReviewActivity
 import com.tiooooo.mymovie.pages.videoPlayer.VideoPlayerActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.abs
 
 @AndroidEntryPoint
 class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
@@ -40,6 +37,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
 
     override fun initView() {
         movieId = intent.getStringExtra(EXTRA_ID) ?: "0"
+        setupToolbar(binding.toolbar)
         if (movieId.isNotEmpty()) {
             detailMovieViewModel.getMovieDetail(movieId)
             detailMovieViewModel.getMovieCast(movieId)
@@ -86,12 +84,16 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                 is States.Success -> {
                     showReview(true)
                     initReviewAdapter(it.data)
+                    binding.contentDetail.rvReview.isVisible = it.data.isNotEmpty()
+                    binding.contentDetail.tvReviews.isVisible = it.data.isNotEmpty()
+                    binding.contentDetail.ivReviewDetail.isVisible = it.data.isNotEmpty()
                 }
 
                 is States.Error, is States.Empty -> {
                     binding.contentDetail.shimmerReview.isVisible = false
                     binding.contentDetail.rvReview.isVisible = false
                     binding.contentDetail.tvReviews.isVisible = false
+                    binding.contentDetail.ivReviewDetail.isVisible = false
                 }
             }
         }
@@ -100,7 +102,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                 is States.Loading -> showVideo(false)
                 is States.Success -> {
                     val data = it.data.filter { video -> video.site == "YouTube" }
-                    if (data.isNotEmpty()){
+                    if (data.isNotEmpty()) {
                         showVideo(true)
                         initVideoAdapter(it.data)
                     } else {
@@ -141,19 +143,19 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                         )
                 }
             }
+            contentDetail.ivReviewDetail.setOnClickListener {
+                val intent = Intent(this@DetailMovieActivity, ListReviewActivity::class.java).apply {
+                    putExtra(ListReviewActivity.EXTRA_ID, data.id.toString())
+                    putExtra(ListReviewActivity.EXTRA_TITLE, "Review of ${data.title}")
+                }
+                startActivity(intent)
+            }
+
             contentDetail.apply {
                 tvDescDetail.text = data.overview
                 tvReleaseDate.text = data.createDateString()
             }
-            setCollapsing(
-                data.title,
-                collapsingToolbar,
-                tvTitle, appbar
-            )
         }
-//        detailMovie = data
-//        favorite = data.isFavorite!!
-//        parentActivity.setFavoriteButton(data.isFavorite!!)
     }
 
     private fun showCast(state: Boolean) {
@@ -176,11 +178,17 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
         binding.contentDetail.apply {
             shimmerReview.isVisible = !state
             rvReview.isVisible = state
+            ivReviewDetail.isVisible = state
         }
     }
 
     private fun initReviewAdapter(data: List<MovieReview>) {
-        val reviewAdapter = ReviewAdapter(data.takeLast(3))
+        val reviewAdapter = ReviewAdapter(data.takeLast(3)).apply {
+            onItemClick = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                startActivity(intent)
+            }
+        }
         binding.contentDetail.rvReview.apply {
             layoutManager = LinearLayoutManager(this@DetailMovieActivity)
             adapter = reviewAdapter
@@ -197,9 +205,10 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
     private fun initVideoAdapter(data: List<MovieVideo>) {
         val videoAdapter = VideoAdapter(data.filter { it.site == "YouTube" }).apply {
             onItemClick = {
-                val intent = Intent(this@DetailMovieActivity, VideoPlayerActivity::class.java).apply {
-                    putExtra(VideoPlayerActivity.EXTRA_KEY, it)
-                }
+                val intent =
+                    Intent(this@DetailMovieActivity, VideoPlayerActivity::class.java).apply {
+                        putExtra(VideoPlayerActivity.EXTRA_KEY, it)
+                    }
                 startActivity(intent)
             }
         }
@@ -209,46 +218,4 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
             adapter = videoAdapter
         }
     }
-}
-
-fun Activity.setCollapsing(
-    title: String? = null,
-    collapsingToolbar: CollapsingToolbarLayout,
-    tvTitle: TextView,
-    appbar: AppBarLayout,
-) {
-    collapsingToolbar.title = ""
-    tvTitle.text = " "
-    collapsingToolbar.setCollapsedTitleTextColor(
-        ContextCompat.getColor(
-            this,
-            R.color.md_theme_dark_background
-        )
-    )
-
-    appbar.setExpanded(true)
-    appbar.addOnOffsetChangedListener(object :
-        AppBarLayout.OnOffsetChangedListener {
-        var isShow = false
-        var scrollRange = -1
-
-
-        override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-            (appBarLayout!!.totalScrollRange - abs(n = verticalOffset).toFloat()) / appBarLayout.totalScrollRange
-
-            if (scrollRange == -1) {
-                scrollRange = appBarLayout.totalScrollRange
-            }
-            if (scrollRange + verticalOffset == 0) {
-                collapsingToolbar.title = title
-                tvTitle.text = title
-                isShow = true
-            } else if (isShow) {
-                collapsingToolbar.title = " "
-                tvTitle.text = " "
-                isShow = false
-            }
-        }
-    })
-
 }
