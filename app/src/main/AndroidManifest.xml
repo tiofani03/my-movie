@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyMovie"
         tools:targetApi="31">
         <activity
+            android:name=".pages.review.ListReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.videoPlayer.VideoPlayerActivity"
             android:exported="false" />
         <activity

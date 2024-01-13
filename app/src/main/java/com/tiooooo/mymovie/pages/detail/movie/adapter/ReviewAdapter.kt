@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tiooooo.data.movie.api.model.review.MovieReview
 import com.tiooooo.mymovie.databinding.ItemReviewBinding
 
-class ReviewAdapter(private val listCast: List<MovieReview>) :
+class ReviewAdapter(private val listReview: List<MovieReview>) :
     RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+
+    var onItemClick: ((url: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         return ReviewViewHolder(
@@ -18,14 +20,17 @@ class ReviewAdapter(private val listCast: List<MovieReview>) :
     }
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
-        holder.bindItem(listCast[position])
+        holder.bindItem(listReview[position])
+        holder.itemBinding.btnReadFull.setOnClickListener {
+            onItemClick?.invoke(listReview[position]?.url.toString())
+        }
     }
 
-    override fun getItemCount(): Int = listCast.size
+    override fun getItemCount(): Int = listReview.size
 
 
     class ReviewViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
-
+        val itemBinding = binding
         fun bindItem(review: MovieReview) {
             binding.apply {
                 tvName.text = review.author
