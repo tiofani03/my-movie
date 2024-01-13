@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.tiooooo.data.movie.api.model.Genre
 import com.tiooooo.mymovie.databinding.ContainerGenreBinding
+import com.tiooooo.mymovie.pages.main.movie.listener.GenreListener
 
-class GenreContainerAdapter : Adapter<GenreContainerAdapter.ViewHolder>() {
+class GenreContainerAdapter(
+    private val handleGenreListener: GenreListener,
+) : Adapter<GenreContainerAdapter.ViewHolder>() {
     private val list: MutableList<Genre> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -30,13 +33,13 @@ class GenreContainerAdapter : Adapter<GenreContainerAdapter.ViewHolder>() {
     override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(list)
+        holder.bindItem(list, handleGenreListener)
     }
 
     class ViewHolder(
         private val binding: ContainerGenreBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItem(list: MutableList<Genre>) {
+        fun bindItem(list: MutableList<Genre>, handleGenreListener: GenreListener) {
             if (list.isNotEmpty()) {
                 val spanCount = 3
                 val staggeredGridLayoutManager =
@@ -44,22 +47,11 @@ class GenreContainerAdapter : Adapter<GenreContainerAdapter.ViewHolder>() {
 
                 binding.rvGenre.apply {
                     layoutManager = staggeredGridLayoutManager
-                    adapter = GenreAdapter().apply {
+                    adapter = GenreAdapter(handleGenreListener).apply {
                         setData(list)
                     }
                 }
             }
-//
-//            val spanCount = 3
-//            val staggeredGridLayoutManager =
-//                StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
-//
-//            binding.rvGenre.apply {
-//                adapter = GenreAdapter().apply {
-//                    setData(list)
-//                }
-//                layoutManager = staggeredGridLayoutManager
-//            }
         }
     }
 }

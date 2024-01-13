@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.tiooooo.data.movie.api.model.Genre
 import com.tiooooo.mymovie.databinding.ItemGenreBinding
+import com.tiooooo.mymovie.pages.main.movie.listener.GenreListener
 
-class GenreAdapter : Adapter<GenreAdapter.ViewHolder>() {
+class GenreAdapter(
+    private val handleGenreListener: GenreListener,
+) : Adapter<GenreAdapter.ViewHolder>() {
     private val list: MutableList<Genre> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -28,6 +31,11 @@ class GenreAdapter : Adapter<GenreAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(list[position])
+        holder.itemView.setOnClickListener {
+            val genres: ArrayList<Genre> = arrayListOf()
+            genres.addAll(list)
+            handleGenreListener.onClick(genres, position)
+        }
     }
 
     class ViewHolder(
