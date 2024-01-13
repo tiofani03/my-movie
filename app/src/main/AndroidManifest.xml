@@ -16,6 +16,12 @@
         android:theme="@style/Theme.MyMovie"
         tools:targetApi="31">
         <activity
+            android:name=".pages.genre.GenreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.list.ListMovieActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.detail.tvSeries.DetailTvSeriesActivity"
             android:exported="false" />
         <activity

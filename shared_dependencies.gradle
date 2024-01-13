@@ -12,7 +12,10 @@ dependencies {
     api("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
 
     //coroutine
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+    //paging
+    api("androidx.paging:paging-runtime-ktx:3.2.1")
 }

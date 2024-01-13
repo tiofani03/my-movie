@@ -17,4 +17,10 @@ interface MovieApi {
         @Path("type") type: String = "popular",
         @Query("page") page: Int = 1,
     ): PagingResponse<MovieResultResponse>
+
+    @GET("discover/movie")
+    suspend fun getDiscoverMovie(
+        @Query("with_genre") genre: String = "28",
+        @Query("page") page: Int = 1,
+    ): PagingResponse<MovieResultResponse>
 }

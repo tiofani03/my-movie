@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import coil.load
 import com.tiooooo.data.movie.api.model.MovieResult
 import com.tiooooo.mymovie.databinding.ItemPosterBinding
+import com.tiooooo.mymovie.pages.main.movie.listener.PosterListener
 
-class PosterAdapter : Adapter<PosterAdapter.ViewHolder>() {
+class PosterAdapter(
+    private val handlePosterListener: PosterListener,
+) : Adapter<PosterAdapter.ViewHolder>() {
     private val list: MutableList<MovieResult> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -29,6 +32,9 @@ class PosterAdapter : Adapter<PosterAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(list[position])
+        holder.itemView.setOnClickListener {
+            handlePosterListener.onClickDetail(list[position].id)
+        }
     }
 
     class ViewHolder(

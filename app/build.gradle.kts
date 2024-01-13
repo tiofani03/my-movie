@@ -5,6 +5,8 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+apply(from = "../shared_dependencies.gradle")
+
 android {
     namespace = "com.tiooooo.mymovie"
     compileSdk = 34
@@ -65,6 +67,8 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil:2.5.0")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
 
 kapt {
