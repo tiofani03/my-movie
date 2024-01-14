@@ -25,12 +25,14 @@ The data for this application is sourced from a [TMDB API](https://developer.the
 - [Dagger Hilt](https://dagger.dev/hilt/) for dependency injection.
 - [Lotties](https://lottiefiles.com/) for animation.
 - [Tourbine](https://github.com/cashapp/turbine) for unit testing.
+- [Chucker](https://github.com/ChuckerTeam/chucker) for see traffic log data.
 
 ### How to Use
 1. Clone this repository to your device.
 2. Open the project using Android Studio.
-3. Run the application on an emulator or physical device.
-4. Add your `API_KEY` to `build.gradle (:core)`
+3. Add your `API_KEY` to `build.gradle(:core)`
+4. Run the application on an emulator or physical device.
+
 
    
 ### Contribution
