@@ -1,15 +1,15 @@
 package com.tiooooo.mymovie.pages.detail.movie
 
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.tiooooo.core.base.BaseActivity
 import com.tiooooo.core.extensions.collectFlow
+import com.tiooooo.core.extensions.gone
 import com.tiooooo.core.extensions.setCollapsing
-import com.tiooooo.core.network.data.States
+import com.tiooooo.core.extensions.visible
 import com.tiooooo.data.movie.api.model.casts.Cast
 import com.tiooooo.data.movie.api.model.detail.MovieDetail
 import com.tiooooo.data.movie.api.model.review.MovieReview
@@ -22,6 +22,7 @@ import com.tiooooo.mymovie.pages.detail.movie.adapter.ReviewAdapter
 import com.tiooooo.mymovie.pages.detail.movie.adapter.VideoAdapter
 import com.tiooooo.mymovie.pages.review.ListReviewActivity
 import com.tiooooo.mymovie.pages.videoPlayer.VideoPlayerActivity
+import com.tiooooo.mymovie.pages.webview.WebViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,84 +40,121 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
         movieId = intent.getStringExtra(EXTRA_ID) ?: "0"
         setupToolbar(binding.toolbar)
         if (movieId.isNotEmpty()) {
-            detailMovieViewModel.getMovieDetail(movieId)
-            detailMovieViewModel.getMovieCast(movieId)
-            detailMovieViewModel.getMovieReview(movieId)
-            detailMovieViewModel.getMovieVideo(movieId)
+            with(detailMovieViewModel) {
+                getMovieDetail(movieId)
+                getMovieCast(movieId)
+                getMovieReview(movieId)
+                getMovieVideo(movieId)
+            }
         }
     }
 
     override fun setViewModelObservable() {
-        collectFlow(detailMovieViewModel.movie) {
-            when (it) {
-                is States.Loading -> {}
-                is States.Success -> {
-                    setMovie(it.data)
-                    setCollapsing(
-                        it.data.title,
-                        binding.collapsingToolbar,
-                        binding.tvTitle,
-                        binding.appbar,
-                    )
-                }
-
-                is States.Error, is States.Empty -> {}
+        collectFlow(detailMovieViewModel.movie) { state ->
+            binding.apply {
+                handleDataState(
+                    state = state,
+                    loadingBlock = { showContent(false) },
+                    successBlock = {
+                        showContent(true)
+                        setMovie(it)
+                        setCollapsing(
+                            it.title,
+                            binding.collapsingToolbar,
+                            binding.tvTitle,
+                            binding.appbar,
+                        )
+                    },
+                    errorBlock = { showErrorContent(it) },
+                    emptyBlock = { showErrorContent() },
+                )
             }
         }
-        collectFlow(detailMovieViewModel.cast) {
-            when (it) {
-                is States.Loading -> showCast(false)
-                is States.Success -> {
-                    showCast(true)
-                    initCastAdapter(it.data)
-                }
-
-                is States.Error, is States.Empty -> {
-                    binding.contentDetail.shimmerCasts.isVisible = false
-                    binding.contentDetail.rvCasts.isVisible = false
-                    binding.contentDetail.tvCasts.isVisible = false
-                }
+        collectFlow(detailMovieViewModel.cast) { state ->
+            binding.apply {
+                val castView = listOf(
+                    contentDetail.shimmerCasts,
+                    contentDetail.rvCasts,
+                    contentDetail.tvCasts
+                )
+                handleDataState(
+                    state = state,
+                    loadingBlock = { showCast(false) },
+                    successBlock = {
+                        showCast(true)
+                        initCastAdapter(it)
+                        contentDetail.rvCasts.isVisible = it.isNotEmpty()
+                        contentDetail.tvCasts.isVisible = it.isNotEmpty()
+                    },
+                    errorBlock = { castView.gone() },
+                    emptyBlock = { castView.gone() },
+                )
             }
         }
-        collectFlow(detailMovieViewModel.review) {
-            when (it) {
-                is States.Loading -> showReview(false)
-                is States.Success -> {
-                    showReview(true)
-                    initReviewAdapter(it.data)
-                    binding.contentDetail.rvReview.isVisible = it.data.isNotEmpty()
-                    binding.contentDetail.tvReviews.isVisible = it.data.isNotEmpty()
-                    binding.contentDetail.ivReviewDetail.isVisible = it.data.isNotEmpty()
-                }
-
-                is States.Error, is States.Empty -> {
-                    binding.contentDetail.shimmerReview.isVisible = false
-                    binding.contentDetail.rvReview.isVisible = false
-                    binding.contentDetail.tvReviews.isVisible = false
-                    binding.contentDetail.ivReviewDetail.isVisible = false
-                }
+        collectFlow(detailMovieViewModel.review) { state ->
+            binding.apply {
+                val reviewView = listOf(
+                    contentDetail.rvReview,
+                    contentDetail.tvReviews,
+                    contentDetail.ivReviewDetail
+                )
+                handleDataState(
+                    state = state,
+                    loadingBlock = { showReview(false) },
+                    successBlock = {
+                        showReview(true)
+                        initReviewAdapter(it)
+                        reviewView.isVisible(it.isNotEmpty())
+                    },
+                    errorBlock = { reviewView.gone() },
+                    emptyBlock = { reviewView.gone() },
+                )
             }
         }
-        collectFlow(detailMovieViewModel.videos) {
-            when (it) {
-                is States.Loading -> showVideo(false)
-                is States.Success -> {
-                    val data = it.data.filter { video -> video.site == "YouTube" }
-                    if (data.isNotEmpty()) {
-                        showVideo(true)
-                        initVideoAdapter(it.data)
-                    } else {
-                        binding.contentDetail.shimmerVideo.isVisible = data.isNotEmpty()
-                        binding.contentDetail.rvVideo.isVisible = data.isNotEmpty()
-                        binding.contentDetail.tvTrailer.isVisible = data.isNotEmpty()
-                    }
-                }
+        collectFlow(detailMovieViewModel.videos) { state ->
+            binding.apply {
+                val videoView = listOf(
+                    contentDetail.shimmerVideo,
+                    contentDetail.rvVideo,
+                    contentDetail.tvTrailer
+                )
+                handleDataState(
+                    state = state,
+                    loadingBlock = { showVideo(false) },
+                    successBlock = {
+                        val data = it.filter { video -> video.site == "YouTube" }
+                        if (data.isNotEmpty()) {
+                            showVideo(true)
+                            initVideoAdapter(it)
+                        } else {
+                            videoView.gone()
+                        }
+                    },
+                    errorBlock = { videoView.gone() },
+                    emptyBlock = { videoView.gone() },
+                )
+            }
+        }
+    }
 
-                is States.Error, is States.Empty -> {
-                    binding.contentDetail.shimmerVideo.isVisible = false
-                    binding.contentDetail.rvVideo.isVisible = false
-                    binding.contentDetail.tvTrailer.isVisible = false
-                }
+    private fun showContent(state: Boolean) {
+        binding.appbar.isVisible = state
+        binding.nestedScrollView.isVisible = state
+        binding.layoutLoading.root.isVisible = !state
+    }
+
+    private fun showErrorContent(message: String? = getString(R.string.error_message)) {
+        binding.apply {
+            appbar.gone()
+            nestedScrollView.gone()
+            layoutLoading.root.gone()
+        }
+        binding.layoutError.apply {
+            root.visible()
+            tvInfo.text = message
+            btnTryAgain.setOnClickListener {
+                initView()
+                root.gone()
             }
         }
     }
@@ -144,10 +182,11 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                 }
             }
             contentDetail.ivReviewDetail.setOnClickListener {
-                val intent = Intent(this@DetailMovieActivity, ListReviewActivity::class.java).apply {
-                    putExtra(ListReviewActivity.EXTRA_ID, data.id.toString())
-                    putExtra(ListReviewActivity.EXTRA_TITLE, "Review of ${data.title}")
-                }
+                val intent =
+                    Intent(this@DetailMovieActivity, ListReviewActivity::class.java).apply {
+                        putExtra(ListReviewActivity.EXTRA_ID, data.id.toString())
+                        putExtra(ListReviewActivity.EXTRA_TITLE, "Review of ${data.title}")
+                    }
                 startActivity(intent)
             }
 
@@ -185,7 +224,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
     private fun initReviewAdapter(data: List<MovieReview>) {
         val reviewAdapter = ReviewAdapter(data.takeLast(3)).apply {
             onItemClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                val intent = Intent(this@DetailMovieActivity, WebViewActivity::class.java).apply {
+                    putExtra(WebViewActivity.BASE_URL, it)
+                }
                 startActivity(intent)
             }
         }

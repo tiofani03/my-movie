@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.tiooooo.core.constant.Constant
 import com.tiooooo.data.movie.api.model.list.MovieResult
+import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.ItemPosterFullBinding
 
 class ListMovieAdapter : PagingDataAdapter<MovieResult, ListMovieAdapter.ViewHolder>(Companion) {
@@ -44,7 +45,11 @@ class ListMovieAdapter : PagingDataAdapter<MovieResult, ListMovieAdapter.ViewHol
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindItem(movieResult: MovieResult) {
             binding.apply {
-                ivPoster.load(Constant.BASE_IMAGE_500 + movieResult.posterPath)
+                ivPoster.load(Constant.BASE_IMAGE_500 + movieResult.posterPath) {
+                    placeholder(R.drawable.ic_image)
+                    error(R.drawable.ic_image)
+                    crossfade(true)
+                }
                 tvTitle.text = movieResult.title
                 tvRating.text = movieResult.voteAverage.toString()
             }

@@ -3,6 +3,7 @@ package com.tiooooo.mymovie.pages.main.movie.adapter.poster
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -16,11 +17,18 @@ class PosterContainerAdapter(
     private val handlePosterListener: PosterListener,
 ) : Adapter<PosterContainerAdapter.ViewHolder>() {
     private val list: MutableList<MovieResult> = mutableListOf()
+    private var isLoading: Boolean = false
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<MovieResult>) {
         this.list.clear()
         this.list.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setLoading(isLoading: Boolean = false){
+        this.isLoading = isLoading
         notifyDataSetChanged()
     }
 
@@ -35,7 +43,7 @@ class PosterContainerAdapter(
     override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(list, title, type, handlePosterListener)
+        holder.bindItem(list, title, type, handlePosterListener, isLoading)
     }
 
     class ViewHolder(
@@ -46,14 +54,17 @@ class PosterContainerAdapter(
             title: String,
             type: String,
             handlePosterListener: PosterListener,
+            isLoading: Boolean,
         ) {
             binding.ivDetail.setOnClickListener {
                 handlePosterListener.onClickSeeAll(title = title, type = type)
             }
 
             binding.tvTitle.text = title
+            binding.rvPoster.isVisible = !isLoading
+            binding.shimmerPoster.isVisible = isLoading
             if (list.isNotEmpty()) {
-                binding.rvGenre.apply {
+                binding.rvPoster.apply {
                     layoutManager =
                         LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
                     adapter = PosterAdapter(handlePosterListener).apply {

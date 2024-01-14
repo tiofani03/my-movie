@@ -6,7 +6,7 @@
     android:layout_height="250dp"
     android:layout_marginVertical="@dimen/space_xs"
     android:layout_marginEnd="@dimen/space_md"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="@dimen/space_sm">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -33,10 +33,10 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/space_0"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_marginEnd="@dimen/space_sm"
                 android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -46,10 +46,10 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="@dimen/space_md"
+                android:layout_height="@dimen/space_md"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_marginBottom="@dimen/space_sm"
                 android:src="@drawable/ic_star"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,9 +57,9 @@
 
             <TextView
                 android:id="@+id/tvRating"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="4dp"
+                android:layout_width="@dimen/space_0"
+                android:layout_height="@dimen/space_0"
+                android:layout_marginStart="@dimen/space_xs"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"

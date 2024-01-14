@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_md"
-        android:text="Genres"
+        android:text="@string/text_genres"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold" />
 
@@ -23,5 +24,72 @@
         android:paddingVertical="@dimen/space_xs"
         tools:itemCount="2"
         tools:listitem="@layout/item_genre" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerGenre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_md"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:shimmer_auto_start="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/space_md" />
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/space_md" />
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:orientation="horizontal">
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/space_md" />
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/space_md" />
+
+                <include
+                    layout="@layout/item_genre_placeholder"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </LinearLayout>

@@ -7,4 +7,11 @@
     <string name="text_video">Video</string>
     <string name="text_reviews">Reviews</string>
     <string name="text_more">More</string>
+    <string name="try_again">Try Again</string>
+    <string name="error_message">Oops.. something went wrong</string>
+    <string name="no_desc">There is no description in this language</string>
+    <string name="text_genres">Genres</string>
+    <string name="text_search_movie">Search Movie…</string>
+    <string name="text_press_once_again_to_close_app">Press once again to close app</string>
+    <string name="text_toggle_full_screen">toggle full screen</string>
 </resources>

@@ -63,6 +63,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreActivity>(R.layout
                 this.adapter = listMovieAdapter
                 layoutManager = GridLayoutManager(requireActivity(), 2)
             }
+            binding.layoutError.btnTryAgain.isVisible = false
         }
     }
 
@@ -78,6 +79,12 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreActivity>(R.layout
                 with(binding) {
                     progressBar.isVisible = it.refresh is LoadState.Loading
                     progressBarLoadMore.isVisible = it.append is LoadState.Loading
+                    rvMovie.isVisible = it.refresh !is LoadState.Loading && it.refresh !is LoadState.Error
+                    layoutError.root.isVisible = it.refresh is LoadState.Error
+
+                    val errorState = it.refresh as? LoadState.Error ?: it.append as? LoadState.Error
+                    val errorMessage = errorState?.error?.message
+                    layoutError.tvInfo.text = errorMessage
                 }
             }
         }

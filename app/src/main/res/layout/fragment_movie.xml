@@ -7,10 +7,17 @@
     android:orientation="vertical"
     tools:context=".pages.main.movie.MovieFragment">
 
+    <include
+        android:id="@+id/layoutError"
+        layout="@layout/layout_error"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -21,7 +28,7 @@
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Cari film" />
+                android:hint="@string/text_search_movie" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvContainer"
@@ -36,7 +43,7 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Cari film"
+        android:hint="@string/text_search_movie"
         app:layout_anchor="@id/search_bar">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingVertical="16dp"
+            android:paddingVertical="@dimen/space_md"
             tools:listitem="@layout/item_search_history" />
 
     </com.google.android.material.search.SearchView>

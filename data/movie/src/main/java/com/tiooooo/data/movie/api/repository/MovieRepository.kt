@@ -1,5 +1,6 @@
 package com.tiooooo.data.movie.api.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.tiooooo.core.network.data.States
 import com.tiooooo.data.movie.api.model.casts.Cast
@@ -8,6 +9,7 @@ import com.tiooooo.data.movie.api.model.list.GenreList
 import com.tiooooo.data.movie.api.model.list.MovieResult
 import com.tiooooo.data.movie.api.model.review.MovieReview
 import com.tiooooo.data.movie.api.model.video.MovieVideo
+import com.tiooooo.data.movie.implementation.local.entity.SearchHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -30,4 +32,10 @@ interface MovieRepository {
 
     suspend fun getMovieVideos(movieId: String): Flow<States<List<MovieVideo>>>
 
+    suspend fun getMovieByQuery(query: String): Flow<PagingData<MovieResult>>
+
+    fun getSearchHistory(): LiveData<List<SearchHistoryEntity>>
+    suspend fun insertSearchHistory(search: SearchHistoryEntity)
+    suspend fun deleteSearchHistory(search: SearchHistoryEntity)
+    suspend fun updateSearchHistory(search: SearchHistoryEntity)
 }

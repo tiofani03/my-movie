@@ -17,6 +17,7 @@ class ListMovieActivity : BaseActivity<ActivityListMovieBinding>() {
     companion object {
         const val EXTRA_TITLE = "EXTRA_TITLE title"
         const val EXTRA_TYPE = "EXTRA_TYPE"
+        const val EXTRA_QUERY = "EXTRA_QUERY"
     }
 
     override fun getViewBinding() = ActivityListMovieBinding.inflate(layoutInflater)
@@ -25,13 +26,20 @@ class ListMovieActivity : BaseActivity<ActivityListMovieBinding>() {
     private lateinit var listMovieAdapter: ListMovieAdapter
     private lateinit var title: String
     private lateinit var type: String
+    private var query: String = ""
 
     override fun initView() {
         title = intent.getStringExtra(EXTRA_TITLE) ?: "Popular"
-        type = intent.getStringExtra(EXTRA_TYPE) ?: "popular"
+        type = intent.getStringExtra(EXTRA_TYPE) ?: ""
+        query = intent.getStringExtra(EXTRA_QUERY) ?: ""
+
         binding.toolbar.title = title
         setupToolbar(binding.toolbar)
-        listMovieViewModel.getMoviesByType(type)
+        if (type.isNotEmpty()){
+            listMovieViewModel.getMoviesByType(type)
+        } else {
+            listMovieViewModel.getMovieByQuery(query)
+        }
 
         listMovieAdapter = ListMovieAdapter().apply {
             onItemClick = {
@@ -45,6 +53,7 @@ class ListMovieActivity : BaseActivity<ActivityListMovieBinding>() {
             this.adapter = listMovieAdapter
             layoutManager = GridLayoutManager(this@ListMovieActivity, 2)
         }
+        binding.layoutError.btnTryAgain.isVisible = false
     }
 
     override fun initListener() {
@@ -69,6 +78,12 @@ class ListMovieActivity : BaseActivity<ActivityListMovieBinding>() {
                 with(binding) {
                     progressBar.isVisible = it.refresh is LoadState.Loading
                     progressBarLoadMore.isVisible = it.append is LoadState.Loading
+                    rvMovie.isVisible = it.refresh !is LoadState.Loading && it.refresh !is LoadState.Error
+                    layoutError.root.isVisible = it.refresh is LoadState.Error
+
+                    val errorState = it.refresh as? LoadState.Error ?: it.append as? LoadState.Error
+                    val errorMessage = errorState?.error?.message
+                    layoutError.tvInfo.text = errorMessage
                 }
             }
         }

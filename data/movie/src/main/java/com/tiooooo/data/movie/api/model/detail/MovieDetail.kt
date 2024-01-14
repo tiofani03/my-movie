@@ -29,8 +29,6 @@ data class MovieDetail(
     fun createVoteCountToString(): String =
         "$voteAverage from $voteCount reviews"
 
-    fun createRatingToString(): String = voteAverage.toString()
-
     fun createTitleWithYear(): String {
         if (releaseDate.isEmpty()) {
             return title

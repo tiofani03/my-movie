@@ -1,12 +1,10 @@
 package com.tiooooo.core.extensions
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.appbar.AppBarLayout
@@ -14,10 +12,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.coroutines.flow.Flow
 import kotlin.math.abs
 
-fun <T> AppCompatActivity.collectFlow(flow: Flow<T>, action: ((T) -> Unit)){
+fun <T> AppCompatActivity.collectFlow(flow: Flow<T>, action: ((T) -> Unit)) {
     getLaunch {
-        repeatOnLifecycle(Lifecycle.State.STARTED){
-            flow.collect{
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            flow.collect {
                 action.invoke(it)
             }
         }

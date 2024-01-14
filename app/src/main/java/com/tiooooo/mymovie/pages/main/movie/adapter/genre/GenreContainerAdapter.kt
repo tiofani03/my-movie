@@ -3,6 +3,7 @@ package com.tiooooo.mymovie.pages.main.movie.adapter.genre
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -14,11 +15,18 @@ class GenreContainerAdapter(
     private val handleGenreListener: GenreListener,
 ) : Adapter<GenreContainerAdapter.ViewHolder>() {
     private val list: MutableList<Genre> = mutableListOf()
+    private var isLoading: Boolean = false
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<Genre>) {
         this.list.clear()
         this.list.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setLoading(isLoading: Boolean = false){
+        this.isLoading = isLoading
         notifyDataSetChanged()
     }
 
@@ -33,13 +41,20 @@ class GenreContainerAdapter(
     override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(list, handleGenreListener)
+        holder.bindItem(list, handleGenreListener, isLoading)
     }
 
     class ViewHolder(
         private val binding: ContainerGenreBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItem(list: MutableList<Genre>, handleGenreListener: GenreListener) {
+        fun bindItem(
+            list: MutableList<Genre>,
+            handleGenreListener: GenreListener,
+            isLoading: Boolean,
+        ) {
+            binding.rvGenre.isVisible = !isLoading
+            binding.shimmerGenre.isVisible = isLoading
+
             if (list.isNotEmpty()) {
                 val spanCount = 3
                 val staggeredGridLayoutManager =

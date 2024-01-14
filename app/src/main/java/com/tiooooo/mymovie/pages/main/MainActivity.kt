@@ -1,12 +1,12 @@
 package com.tiooooo.mymovie.pages.main
 
-import androidx.activity.viewModels
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import com.tiooooo.core.base.BaseActivity
-import com.tiooooo.core.extensions.collectFlow
+import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.ActivityMainBinding
-import com.tiooooo.mymovie.pages.main.favorite.FavoriteFragment
 import com.tiooooo.mymovie.pages.main.movie.MovieFragment
-import com.tiooooo.mymovie.pages.main.tvSeries.TvSeriesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import me.ertugrul.lib.OnItemSelectedListener
 
@@ -22,8 +22,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val viewPagerAdapter = SectionMenuViewPager(
             supportFragmentManager, lifecycle, listOf(
                 MovieFragment(),
-                TvSeriesFragment(),
-                FavoriteFragment(),
             )
         )
         binding.viewPager.adapter = viewPagerAdapter
@@ -42,33 +40,39 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-//        if (currentPosition == 0) {
-//            val currentFragment = supportFragmentManager.fragments.firstOrNull()
-//
-//            if (currentFragment is MovieFragment && currentFragment.handleBackPressed()) {
-//                if (doubleBackPressedOnce) {
-//                    super.onBackPressed()
-//                    return
-//                }
-//
-//                doubleBackPressedOnce = true
-//                Toast.makeText(this, "Tekan sekali lagi untuk Keluar", Toast.LENGTH_SHORT).show()
-//                Handler(Looper.getMainLooper()).postDelayed({
-//                    doubleBackPressedOnce = false
-//                }, 2000)
-//            }
-//        } else {
-//            if (doubleBackPressedOnce) {
-//                super.onBackPressed()
-//                return
-//            }
-//
-//            doubleBackPressedOnce = true
-//            Toast.makeText(this, "Tekan sekali lagi untuk Keluar", Toast.LENGTH_SHORT).show()
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                doubleBackPressedOnce = false
-//            }, 2000)
-//        }
+        if (currentPosition == 0) {
+            val currentFragment = supportFragmentManager.fragments.firstOrNull()
+
+            if (currentFragment is MovieFragment && currentFragment.handleBackPressed()) {
+                if (doubleBackPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
+
+                doubleBackPressedOnce = true
+                Toast.makeText(
+                    this,
+                    getString(R.string.text_press_once_again_to_close_app), Toast.LENGTH_SHORT
+                ).show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    doubleBackPressedOnce = false
+                }, 2000)
+            }
+        } else {
+            if (doubleBackPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            doubleBackPressedOnce = true
+            Toast.makeText(
+                this,
+                getString(R.string.text_press_once_again_to_close_app), Toast.LENGTH_SHORT
+            ).show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                doubleBackPressedOnce = false
+            }, 2000)
+        }
     }
 
 }

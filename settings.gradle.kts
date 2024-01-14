@@ -20,5 +20,4 @@ rootProject.name = "MyMovie"
 
 include(":app")
 include(":data:movie")
-include(":data:tvSeries")
 include(":core")

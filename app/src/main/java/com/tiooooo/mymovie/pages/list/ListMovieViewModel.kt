@@ -29,4 +29,12 @@ class ListMovieViewModel @Inject constructor(
         }
     }
 
+    fun getMovieByQuery(
+        query: String = "",
+    ) = viewModelScope.launch {
+        movieRepository.getMovieByQuery(query).cachedIn(viewModelScope).collectLatest {
+            _movies.value = it
+        }
+    }
+
 }
