@@ -54,21 +54,6 @@ abstract class BaseFragment<out VB : ViewBinding, out A : Activity>(private val 
         _binding = null
     }
 
-    fun <T> handleDataState(
-        state: States<T>,
-        loadingBlock: () -> Unit,
-        successBlock: (T) -> Unit,
-        emptyBlock: () -> Unit,
-        errorBlock: (String?) -> Unit
-    ) {
-        when (state) {
-            is States.Loading -> loadingBlock.invoke()
-            is States.Success -> successBlock.invoke(state.data)
-            is States.Empty -> emptyBlock.invoke()
-            is States.Error -> errorBlock.invoke(state.message)
-        }
-    }
-
     fun List<View>.show() {
         forEach { it.visibility = View.VISIBLE }
     }

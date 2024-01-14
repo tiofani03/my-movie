@@ -2,6 +2,7 @@ package com.tiooooo.core.network.helper
 
 import android.os.Build
 import com.tiooooo.core.common.ContextProvider
+import com.tiooooo.core.constant.Constant
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -38,7 +39,7 @@ class HeaderInterceptor(
                 )
                 requestBuilder.header(
                     HEADER_AUTHORIZATION,
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmE5OTA1YWIyYzVjOWVmYmIyMjg3NzMxNjRhNzVhOSIsInN1YiI6IjYxZGZlOTNlZTI0YjkzMDA0MTc1MTI4NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sx9IXc1z3_MEeww4-dbkTdQFkDC_C8y6CmCVWGiFnKY"
+                    "Bearer ${Constant.API_KEY}"
                 )
                 requestBuilder.header("accept", "application/json")
             }

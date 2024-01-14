@@ -46,21 +46,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    fun <T> handleDataState(
-        state: States<T>,
-        loadingBlock: () -> Unit,
-        successBlock: (T) -> Unit,
-        emptyBlock: () -> Unit,
-        errorBlock: (String?) -> Unit
-    ) {
-        when (state) {
-            is States.Loading -> loadingBlock.invoke()
-            is States.Success -> successBlock.invoke(state.data)
-            is States.Empty -> emptyBlock.invoke()
-            is States.Error -> errorBlock.invoke(state.message)
-        }
-    }
-
     fun List<View>.isVisible(state: Boolean) {
         if (state) this.show()
         else this.gone()

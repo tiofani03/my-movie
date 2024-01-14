@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.appbar.AppBarLayout
@@ -22,12 +23,7 @@ fun <T> AppCompatActivity.collectFlow(flow: Flow<T>, action: ((T) -> Unit)) {
     }
 }
 
-fun AppCompatActivity.hideKeyboard() {
-    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(this.window.attributes.token, 0)
-}
-
-fun AppCompatActivity.setCollapsing(
+fun setCollapsing(
     title: String? = null,
     collapsingToolbar: CollapsingToolbarLayout,
     tvTitle: TextView,

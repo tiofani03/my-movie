@@ -10,6 +10,7 @@ import com.tiooooo.core.extensions.collectFlow
 import com.tiooooo.core.extensions.gone
 import com.tiooooo.core.extensions.setCollapsing
 import com.tiooooo.core.extensions.visible
+import com.tiooooo.core.network.data.handleStates
 import com.tiooooo.data.movie.api.model.casts.Cast
 import com.tiooooo.data.movie.api.model.detail.MovieDetail
 import com.tiooooo.data.movie.api.model.review.MovieReview
@@ -51,22 +52,18 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
 
     override fun setViewModelObservable() {
         collectFlow(detailMovieViewModel.movie) { state ->
-            binding.apply {
-                handleDataState(
-                    state = state,
-                    loadingBlock = { showContent(false) },
-                    successBlock = {
-                        showContent(true)
-                        setMovie(it)
-                        setCollapsing(
-                            it.title,
-                            binding.collapsingToolbar,
-                            binding.tvTitle,
-                            binding.appbar,
-                        )
-                    },
-                    errorBlock = { showErrorContent(it) },
-                    emptyBlock = { showErrorContent() },
+            state.handleStates(
+                loadingBlock = { showContent(false) },
+                emptyBlock = { showErrorContent() },
+                errorBlock = { showErrorContent(it) },
+            ) {
+                showContent(true)
+                setMovie(it)
+                setCollapsing(
+                    it.title,
+                    binding.collapsingToolbar,
+                    binding.tvTitle,
+                    binding.appbar,
                 )
             }
         }
@@ -77,8 +74,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                     contentDetail.rvCasts,
                     contentDetail.tvCasts
                 )
-                handleDataState(
-                    state = state,
+                state.handleStates(
                     loadingBlock = { showCast(false) },
                     successBlock = {
                         showCast(true)
@@ -98,8 +94,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                     contentDetail.tvReviews,
                     contentDetail.ivReviewDetail
                 )
-                handleDataState(
-                    state = state,
+                state.handleStates(
                     loadingBlock = { showReview(false) },
                     successBlock = {
                         showReview(true)
@@ -118,8 +113,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding>() {
                     contentDetail.rvVideo,
                     contentDetail.tvTrailer
                 )
-                handleDataState(
-                    state = state,
+                state.handleStates(
                     loadingBlock = { showVideo(false) },
                     successBlock = {
                         val data = it.filter { video -> video.site == "YouTube" }

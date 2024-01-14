@@ -220,6 +220,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_md"
+            android:layout_marginBottom="@dimen/space_hg"
             android:layout_marginEnd="@dimen/space_md" />
 
 
