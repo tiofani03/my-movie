@@ -41,27 +41,27 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun getNowPlaying() {
+    fun getNowPlaying(type: String = "now_playing") {
         viewModelScope.launch {
-            _nowPlaying.emitAll(movieRepository.getMovieByType("now_playing"))
+            _nowPlaying.emitAll(movieRepository.getMovieByType(type))
         }
     }
 
-    fun getPopular() {
+    fun getPopular(type: String = "popular") {
         viewModelScope.launch {
-            _popular.emitAll(movieRepository.getMovieByType("popular"))
+            _popular.emitAll(movieRepository.getMovieByType(type))
         }
     }
 
-    fun getTopRated() {
+    fun getTopRated(type: String = "top_rated") {
         viewModelScope.launch {
-            _topRated.emitAll(movieRepository.getMovieByType("top_rated"))
+            _topRated.emitAll(movieRepository.getMovieByType(type))
         }
     }
 
-    fun getUpComing() {
+    fun getUpComing(type: String = "upcoming") {
         viewModelScope.launch {
-            _upComing.emitAll(movieRepository.getMovieByType("upcoming"))
+            _upComing.emitAll(movieRepository.getMovieByType(type))
         }
     }
 
