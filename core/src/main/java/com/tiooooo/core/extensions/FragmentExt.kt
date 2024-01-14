@@ -26,18 +26,3 @@ fun Fragment.getLaunch(
 ) =
     viewLifecycleOwner.lifecycleScope.launch(context = context) { block.invoke(this) }
 
-fun Fragment.removeFragment(fragment: Fragment? = null) {
-    childFragmentManager.beginTransaction().remove(fragment ?: this).commit()
-}
-
-fun Fragment.getLifeCycle() = viewLifecycleOwner.lifecycle
-
-fun Fragment.getFragmentManagers() = childFragmentManager
-
-inline fun <reified T> Fragment.findActivityListener(): T? {
-    return activity as? T
-}
-
-inline fun <reified T> Fragment.findFragmentListener(tag: String): T? {
-    return childFragmentManager.findFragmentByTag(tag) as? T
-}

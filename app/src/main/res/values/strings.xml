@@ -14,4 +14,6 @@
     <string name="text_search_movie">Search Movie…</string>
     <string name="text_press_once_again_to_close_app">Press once again to close app</string>
     <string name="text_toggle_full_screen">toggle full screen</string>
+    <string name="my">My</string>
+    <string name="movie">Movie</string>
 </resources>

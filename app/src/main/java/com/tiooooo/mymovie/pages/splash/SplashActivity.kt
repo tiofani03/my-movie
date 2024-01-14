@@ -1,12 +1,21 @@
 package com.tiooooo.mymovie.pages.splash
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.tiooooo.mymovie.R
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import com.tiooooo.core.base.BaseActivity
+import com.tiooooo.mymovie.databinding.ActivitySplashBinding
+import com.tiooooo.mymovie.pages.main.MainActivity
 
-class SplashActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+    override fun getViewBinding() = ActivitySplashBinding.inflate(layoutInflater)
+
+    override fun initView() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }, 3000)
     }
+
+
 }

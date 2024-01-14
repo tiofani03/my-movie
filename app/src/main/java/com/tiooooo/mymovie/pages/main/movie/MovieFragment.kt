@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tiooooo.core.base.BaseFragment
 import com.tiooooo.core.extensions.collectFlow
 import com.tiooooo.core.network.data.States
+import com.tiooooo.core.network.data.handleStates
 import com.tiooooo.data.movie.api.model.list.Genre
 import com.tiooooo.data.movie.implementation.local.entity.SearchHistoryEntity
 import com.tiooooo.mymovie.R
@@ -78,8 +79,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
     override fun setSubscribeToLiveData() {
         collectFlow(movieViewModel.genres) { state ->
             genreContainerAdapter.setLoading(state is States.Loading)
-            handleDataState(
-                state = state,
+            state.handleStates(
                 loadingBlock = {},
                 successBlock = { genreContainerAdapter.setData(it.genreList) },
                 emptyBlock = { concatAdapter.removeAdapter(genreContainerAdapter) },
@@ -90,8 +90,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
 
         collectFlow(movieViewModel.nowPlaying) { state ->
             nowPlayingContainerAdapter.setLoading(state is States.Loading)
-            handleDataState(
-                state = state,
+            state.handleStates(
                 loadingBlock = {},
                 successBlock = { nowPlayingContainerAdapter.setData(it) },
                 emptyBlock = { concatAdapter.removeAdapter(nowPlayingContainerAdapter) },
@@ -102,8 +101,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
 
         collectFlow(movieViewModel.popular) { state ->
             popularContainerAdapter.setLoading(state is States.Loading)
-            handleDataState(
-                state = state,
+            state.handleStates(
                 loadingBlock = {},
                 successBlock = { popularContainerAdapter.setData(it) },
                 emptyBlock = { concatAdapter.removeAdapter(popularContainerAdapter) },
@@ -114,8 +112,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
 
         collectFlow(movieViewModel.topRated) { state ->
             topRatedContainerAdapter.setLoading(state is States.Loading)
-            handleDataState(
-                state = state,
+            state.handleStates(
                 loadingBlock = {},
                 successBlock = { topRatedContainerAdapter.setData(it) },
                 emptyBlock = { concatAdapter.removeAdapter(topRatedContainerAdapter) },
@@ -126,8 +123,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MainActivity>(R.layout.
 
         collectFlow(movieViewModel.upComing) { state ->
             upComingContainerAdapter.setLoading(state is States.Loading)
-            handleDataState(
-                state = state,
+            state.handleStates(
                 loadingBlock = {},
                 successBlock = { upComingContainerAdapter.setData(it) },
                 emptyBlock = { concatAdapter.removeAdapter(upComingContainerAdapter) },

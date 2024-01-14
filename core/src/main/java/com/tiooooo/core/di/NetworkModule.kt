@@ -1,6 +1,7 @@
 package com.tiooooo.core.di
 
 import com.tiooooo.core.common.ContextProvider
+import com.tiooooo.core.constant.Constant
 import com.tiooooo.core.network.helper.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,7 @@ object NetworkModule {
         return NetworkProvider(
             contextProvider = contextProvider,
             ioDispatcher = Dispatchers.IO,
-            url = "https://api.themoviedb.org/3/",
+            url = Constant.BASE_URL,
         )
     }
 
