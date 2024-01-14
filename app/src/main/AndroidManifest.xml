@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyMovie"
         tools:targetApi="31">
         <activity
+            android:name=".pages.webview.WebViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.review.ListReviewActivity"
             android:exported="false" />
         <activity
@@ -26,9 +29,6 @@
             android:exported="false" />
         <activity
             android:name=".pages.list.ListMovieActivity"
-            android:exported="false" />
-        <activity
-            android:name=".pages.detail.tvSeries.DetailTvSeriesActivity"
             android:exported="false" />
         <activity
             android:name=".pages.splash.SplashActivity"

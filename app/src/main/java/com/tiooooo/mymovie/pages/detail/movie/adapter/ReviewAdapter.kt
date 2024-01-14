@@ -22,7 +22,7 @@ class ReviewAdapter(private val listReview: List<MovieReview>) :
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         holder.bindItem(listReview[position])
         holder.itemBinding.btnReadFull.setOnClickListener {
-            onItemClick?.invoke(listReview[position]?.url.toString())
+            onItemClick?.invoke(listReview[position].url)
         }
     }
 

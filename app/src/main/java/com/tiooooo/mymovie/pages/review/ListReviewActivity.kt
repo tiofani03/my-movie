@@ -1,22 +1,14 @@
 package com.tiooooo.mymovie.pages.review
 
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tiooooo.core.base.BaseActivity
 import com.tiooooo.core.extensions.getLaunch
-import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.ActivityListReviewBinding
-import com.tiooooo.mymovie.pages.detail.movie.DetailMovieActivity
-import com.tiooooo.mymovie.pages.list.ListMovieActivity
-import com.tiooooo.mymovie.pages.list.ListMovieAdapter
-import com.tiooooo.mymovie.pages.list.ListMovieViewModel
+import com.tiooooo.mymovie.pages.webview.WebViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -43,7 +35,9 @@ class ListReviewActivity : BaseActivity<ActivityListReviewBinding>() {
 
         listReviewAdapter = ListAllReviewAdapter().apply {
             onItemClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                val intent = Intent(this@ListReviewActivity, WebViewActivity::class.java).apply {
+                    putExtra(WebViewActivity.BASE_URL, it)
+                }
                 startActivity(intent)
             }
         }
@@ -75,7 +69,8 @@ class ListReviewActivity : BaseActivity<ActivityListReviewBinding>() {
                 with(binding) {
                     shimmerReview.isVisible = it.refresh is LoadState.Loading
                     progressBarLoadMore.isVisible = it.append is LoadState.Loading
-                    rvReview.isVisible = it.refresh !is LoadState.Loading && it.refresh !is LoadState.Error
+                    rvReview.isVisible =
+                        it.refresh !is LoadState.Loading && it.refresh !is LoadState.Error
                 }
             }
         }

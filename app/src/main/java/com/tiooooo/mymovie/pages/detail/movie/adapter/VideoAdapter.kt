@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.tiooooo.data.movie.api.model.video.MovieVideo
 import com.tiooooo.mymovie.R
 import com.tiooooo.mymovie.databinding.ItemVideoBinding
@@ -33,11 +32,11 @@ class VideoAdapter(private val listCast: List<MovieVideo>) :
     class VideoViewHolder(val binding: ItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItem(movieVideo: MovieVideo) {
-                binding.ivThumbnail.load("https://img.youtube.com/vi/${movieVideo.key}/0.jpg"){
-                    placeholder(R.drawable.ic_image)
-                    error(R.drawable.ic_image)
-                    crossfade(true)
-                }
+            binding.ivThumbnail.load("https://img.youtube.com/vi/${movieVideo.key}/0.jpg") {
+                placeholder(R.drawable.ic_image)
+                error(R.drawable.ic_image)
+                crossfade(true)
+            }
 
         }
     }

@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvTitleTv"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/space_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -21,9 +21,9 @@
 
     <ImageView
         android:id="@+id/ivStar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="@dimen/space_md"
+        android:layout_height="@dimen/space_md"
+        android:layout_marginTop="@dimen/space_xs"
         android:background="@drawable/ic_star"
         app:layout_constraintStart_toStartOf="@+id/tvTitleTv"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleTv"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/tvRatingCount"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/space_0"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white"
@@ -42,9 +42,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGenre"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/space_0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_xs"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/space_sm"
         app:layout_constraintEnd_toEndOf="parent"

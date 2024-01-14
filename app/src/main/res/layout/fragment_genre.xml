@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".pages.genre.GenreFragment">
 
+    <include
+        android:id="@+id/layoutError"
+        layout="@layout/layout_error"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -19,8 +26,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMovie"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/space_0"
+        android:layout_height="@dimen/space_0"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="true"
         android:paddingBottom="72dp"
@@ -34,7 +41,7 @@
         android:id="@+id/progressBarLoadMore"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="10dp"
+        android:padding="@dimen/space_md"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

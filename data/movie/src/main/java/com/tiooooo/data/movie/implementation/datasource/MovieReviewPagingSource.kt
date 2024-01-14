@@ -18,13 +18,21 @@ class MovieReviewPagingSource(
         return try {
             val position = params.key ?: INITIAL_PAGE_INDEX
             val res = movieApi.getMovieReviews(movieId, position)
-            LoadResult.Page(
-                data = res.data!!.map {
-                    it.toMovieReview()
-                },
-                prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
-                nextKey = if (res.data.isNullOrEmpty()) null else position + 1
-            )
+            res.data?.let {
+                LoadResult.Page(
+                    data = it.map { movie ->
+                        movie.toMovieReview()
+                    },
+                    prevKey = if (position == MovieByQueryPagingSource.INITIAL_PAGE_INDEX) null else position - 1,
+                    nextKey = if (res.data.isNullOrEmpty()) null else position + 1
+                )
+            } ?: run {
+                LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = null
+                )
+            }
 
         } catch (e: Exception) {
             LoadResult.Error(e)

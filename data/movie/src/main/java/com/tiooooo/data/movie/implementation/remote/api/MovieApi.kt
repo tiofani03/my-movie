@@ -48,4 +48,10 @@ interface MovieApi {
     suspend fun getMovieVideo(
         @Path("movieId") movieId: String,
     ): PagingResponse<MovieVideoResponse>
+
+    @GET("search/movie")
+    suspend fun getMovieByQuery(
+        @Query("query") query: String,
+        @Query("page") page: Int = 1,
+    ): PagingResponse<MovieResultResponse>
 }
